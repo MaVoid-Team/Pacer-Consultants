@@ -52,7 +52,7 @@ export default function Home() {
           {/* Background Image with Parallax-ready feel */}
           <div className="absolute inset-0 z-0">
             <img
-              src="/images/clinique-hero.webp"
+              src={import.meta.env.BASE_URL + "images/clinique-hero.webp"}
               alt="Pacer Consultants Excellence"
               className="w-full h-full object-cover scale-105"
             />
@@ -119,14 +119,14 @@ export default function Home() {
             <div className="relative order-1 lg:order-2">
               <div className="bg-muted aspect-[4/5] overflow-hidden shadow-2xl skew-y-1 hover:skew-y-0 transition-transform duration-700">
                 <img
-                  src="/images/clinique-facade-1.webp"
+                  src={import.meta.env.BASE_URL + "images/clinique-facade-1.webp"}
                   alt="Engineering Precision"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-110 hover:scale-100"
                 />
               </div>
               <div className="absolute -bottom-10 -left-10 w-2/3 hidden xl:block border-[12px] border-background shadow-2xl">
                 <img
-                  src="/images/clinique-facade-2.webp"
+                  src={import.meta.env.BASE_URL + "images/clinique-facade-2.webp"}
                   alt="Modern Design"
                   className="w-full aspect-square object-cover"
                 />
