@@ -14,8 +14,10 @@ RUN pnpm install --no-frozen-lockfile
 
 FROM deps AS build
 COPY . .
-# Build and then prune devDependencies to leave only production deps
-RUN pnpm build && pnpm prune --prod
+# Build, prune devDependencies, and place the client build into dist/public
+RUN pnpm build && pnpm prune --prod && \
+	mkdir -p dist/public && \
+	cp -r docs/* dist/public || true
 
 FROM node:25-alpine AS runner
 WORKDIR /app
