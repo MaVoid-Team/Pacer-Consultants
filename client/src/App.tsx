@@ -1,29 +1,13 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch, useLocation } from "wouter";
+import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-import { useEffect } from "react";
 
-// Get the base path from Vite's PUBLIC_URL or default to /Pacer-Consultants/
-const BASE_PATH = import.meta.env.BASE_URL || '/Pacer-Consultants/';
 
 function Router() {
-  const [location, navigate] = useLocation();
-
-  // Handle base path routing
-  useEffect(() => {
-    const basePath = BASE_PATH.replace(/\/$/, ''); // Remove trailing slash
-    if (location.startsWith(basePath)) {
-      const path = location.slice(basePath.length) || '/';
-      if (path !== location) {
-        navigate(path);
-      }
-    }
-  }, [location, navigate]);
-
   return (
     <Switch>
       <Route path={"/"} component={Home} />
