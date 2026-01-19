@@ -9,7 +9,8 @@ import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime()];
 
 export default defineConfig({
-  base: '/Pacer-Consultants/',
+  // allow overriding base at build-time via build-arg/VITE_BASE_URL
+  base: process.env.VITE_BASE_URL || '/Pacer-Consultants/',
   plugins,
   resolve: {
     alias: {

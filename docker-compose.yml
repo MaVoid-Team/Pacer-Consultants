@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # build-time BASE path for Vite. Use '/' for root on your subdomain.
+        VITE_BASE_URL: /pacer-consultants.mavoid.com
+    ports:
+      - "8080:80"
+    restart: unless-stopped
