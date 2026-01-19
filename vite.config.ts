@@ -8,8 +8,12 @@ import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime()];
 
+// Allow overriding the base path at build time via the BASE_PATH env var.
+// Default remains '/Pacer-Consultants/' for local development branches that expect that path.
+const buildBase = process.env.BASE_PATH || '/Pacer-Consultants/';
+
 export default defineConfig({
-  base: '/Pacer-Consultants/',
+  base: buildBase,
   plugins,
   resolve: {
     alias: {
