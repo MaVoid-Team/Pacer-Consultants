@@ -1,0 +1,12 @@
+services:
+  pacer-consultants:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pacer-consultants
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    ports:
+      - "3666:3000"
