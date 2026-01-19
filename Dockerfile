@@ -4,7 +4,7 @@ FROM node:25-alpine AS base
 WORKDIR /app
 
 # Install pnpm (corepack isn't available in this alpine image)
-RUN npm install -g pnpm@10.15.1 --silent
+RUN npm install -g pnpm@latest --silent
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
