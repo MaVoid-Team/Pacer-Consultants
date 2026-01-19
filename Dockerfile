@@ -9,7 +9,8 @@ RUN npm install -g pnpm@latest --silent
 FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
-RUN pnpm install --no-frozen-lockfile
+# Install only production dependencies to keep the runtime image small
+RUN pnpm install --prod --no-frozen-lockfile
 
 FROM deps AS build
 COPY . .
@@ -22,6 +23,8 @@ ENV NODE_ENV=production
 # Only copy production artifacts
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json ./package.json
+# Copy installed production node_modules from the deps stage
+COPY --from=deps /app/node_modules ./node_modules
 
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
