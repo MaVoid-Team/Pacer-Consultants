@@ -4,17 +4,18 @@ FROM node:25-alpine AS base
 WORKDIR /app
 
 # Install pnpm (corepack isn't available in this alpine image)
-RUN npm install -g pnpm@latest --silent
+RUN npm install -g pnpm@10.15.1 --silent
 
 FROM base AS deps
 COPY package.json pnpm-lock.yaml ./
 COPY patches ./patches
-# Install only production dependencies to keep the runtime image small
-RUN pnpm install --prod --no-frozen-lockfile
+# Install all dependencies (dev needed for the build step)
+RUN pnpm install --no-frozen-lockfile
 
 FROM deps AS build
 COPY . .
-RUN pnpm build
+# Build and then prune devDependencies to leave only production deps
+RUN pnpm build && pnpm prune --prod
 
 FROM node:25-alpine AS runner
 WORKDIR /app
@@ -23,8 +24,8 @@ ENV NODE_ENV=production
 # Only copy production artifacts
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package.json ./package.json
-# Copy installed production node_modules from the deps stage
-COPY --from=deps /app/node_modules ./node_modules
+# Copy production node_modules (pruned in the build stage)
+COPY --from=build /app/node_modules ./node_modules
 
 EXPOSE 3000
 CMD ["node", "dist/index.js"]
