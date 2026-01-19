@@ -15,7 +15,8 @@ RUN pnpm install --no-frozen-lockfile
 FROM deps AS build
 COPY . .
 # Build, prune devDependencies, and place the client build into dist/public
-RUN pnpm build && pnpm prune --prod && \
+# Set BASE_PATH='/' so the client is built to load assets from root (hosted at '/').
+RUN BASE_PATH='/' pnpm build && pnpm prune --prod && \
 	mkdir -p dist/public && \
 	cp -r docs/* dist/public || true
 
